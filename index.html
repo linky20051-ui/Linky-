@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وكالة الملكة - شحن عملات Linky</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        :root {
+            --primary-color: #8a2be2;
+            --secondary-color: #9932cc;
+            --dark-color: #4b0082;
+            --light-color: #f5f0ff;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --gray-color: #6c757d;
+            --white-color: #ffffff;
+            --shadow: 0 4px 12px rgba(139, 0, 139, 0.1);
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل العلوي */
+        .top-nav {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 24px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* الرسالة الترحيبية */
+        .welcome-message {
+            background: linear-gradient(135deg, var(--light-color), #e6d7ff);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .agency-code {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        /* باقات العملات */
+        .packages-section {
+            padding: 0 15px 80px 15px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            color: var(--dark-color);
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .coins {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.3s;
+        }
+
+        .buy-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* شريط القائمة السفلي */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--gray-color);
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* الصفحات المخفية */
+        .page {
+            display: none;
+            padding: 20px 15px;
+            background: white;
+            min-height: calc(100vh - 60px);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* صفحة التسجيل */
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .auth-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-title {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.3s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray-color);
+        }
+
+        .auth-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* صفحة الملف الشخصي */
+        .profile-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .profile-name {
+            font-size: 22px;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+
+        .profile-info {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        /* صفحة الدفع */
+        .payment-info {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .vodafone-number {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 15px 0;
+        }
+
+        .payment-steps {
+            margin: 25px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .file-upload i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* صفحة طلباتي */
+        .orders-list {
+            margin-top: 20px;
+        }
+
+        .order-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border-right: 5px solid var(--warning-color);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* نافذة منبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-color);
+        }
+
+        /* التنبيهات */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* التحميل */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* استجابة للهواتف */
+        @media (max-width: 480px) {
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-form {
+                padding: 20px;
+            }
+            
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <div class="top-nav">
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <span>وكالة الملكة</span>
+        </div>
+        <div class="nav-icons">
+            <a href="#" onclick="showPage('profile')">
+                <i class="fas fa-user"></i>
+            </a>
+            <a href="#" onclick="showPage('orders')">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="badge" id="orders-badge">3</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية -->
+    <div id="home-page" class="page active">
+        <!-- الرسالة الترحيبية -->
+        <div class="welcome-message">
+            <h2>مرحباً بك في وكالة الملكة</h2>
+            <p>لشحن عملات Linky بنفسجية بأفضل الأسعار</p>
+            <div class="agency-code">كود الوكالة: gghgv</div>
+        </div>
+
+        <!-- باقات العملات -->
+        <div class="packages-section">
+            <div class="section-title">
+                <i class="fas fa-coins"></i>
+                <h2>باقات العملات المتاحة</h2>
+            </div>
+            
+            <div class="packages-grid" id="packages-grid">
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة التسجيل -->
+    <div id="login-page" class="page">
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2 class="auth-title">تسجيل الدخول</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة المرور</label>
+                        <input type="password" class="form-control" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">تسجيل الدخول</button>
+                </form>
+                <div class="auth-link">
+                    ليس لديك حساب؟ <a href="#" onclick="showPage('register')">سجل الآن</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة إنشاء حساب -->
+    <div id="register-page" class="page">
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2 class="auth-title">إنشاء حساب جديد</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>اسم المستخدم</label>
+                        <input type="text" class="form-control" id="register-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة المرور</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رفع صورة الملف الشخصي</label>
+                        <div class="file-upload" onclick="document.getElementById('profile-pic').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>انقر لرفع الصورة</p>
+                            <input type="file" id="profile-pic" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                        </div>
+                        <img id="image-preview" class="profile-img" style="display: none; margin: 10px auto;">
+                    </div>
+                    <button type="submit" class="btn-primary">إنشاء حساب</button>
+                </form>
+                <div class="auth-link">
+                    لديك حساب بالفعل؟ <a href="#" onclick="showPage('login')">سجل الدخول</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة الملف الشخصي -->
+    <div id="profile-page" class="page">
+        <div class="profile-header">
+            <img id="user-profile-img" class="profile-img" src="https://via.placeholder.com/120" alt="صورة الملف الشخصي">
+            <h2 id="user-name" class="profile-name">اسم المستخدم</h2>
+            <p id="user-email">user@example.com</p>
+        </div>
+        
+        <div class="profile-info">
+            <div class="info-item">
+                <span>كود الوكالة:</span>
+                <strong>gghgv</strong>
+            </div>
+            <div class="info-item">
+                <span>عدد الطلبات:</span>
+                <strong id="user-orders-count">0</strong>
+            </div>
+            <div class="info-item">
+                <span>الطلبات المكتملة:</span>
+                <strong id="user-completed-orders">0</strong>
+            </div>
+            <div class="info-item">
+                <span>تاريخ التسجيل:</span>
+                <strong id="user-join-date">2024-01-01</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة طلباتي -->
+    <div id="orders-page" class="page">
+        <div class="section-title">
+            <i class="fas fa-history"></i>
+            <h2>طلباتي</h2>
+        </div>
+        
+        <div class="orders-list" id="orders-list">
+            <!-- سيتم ملؤها بالجافاسكريبت -->
+        </div>
+    </div>
+
+    <!-- صفحة الدفع -->
+    <div id="payment-page" class="page">
+        <div class="section-title">
+            <i class="fas fa-credit-card"></i>
+            <h2>إتمام الشراء</h2>
+        </div>
+        
+        <div class="payment-info">
+            <h3>تفاصيل الباقة</h3>
+            <div id="selected-package-info"></div>
+        </div>
+        
+        <div class="payment-steps">
+            <h3>خطوات الدفع:</h3>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>قم بالتحويل على رقم فودافون كاش التالي:</div>
+            </div>
+            
+            <div class="vodafone-number">01011111111</div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>املأ البيانات التالية بعد التحويل:</div>
+            </div>
+        </div>
+        
+        <form id="payment-form">
+            <div class="form-group">
+                <label>ID حساب Linky الخاص بك</label>
+                <input type="text" class="form-control" id="linky-id" required>
+            </div>
+            
+            <div class="form-group">
+                <label>رقم الهاتف الذي حولت منه</label>
+                <input type="tel" class="form-control" id="sender-phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label>رقم واتساب للتواصل (اختياري)</label>
+                <input type="tel" class="form-control" id="whatsapp-number">
+            </div>
+            
+            <div class="form-group">
+                <label>صورة إيصال التحويل</label>
+                <div class="file-upload" onclick="document.getElementById('receipt').click()">
+                    <i class="fas fa-receipt"></i>
+                    <p>انقر لرفع صورة الإيصال</p>
+                    <input type="file" id="receipt" accept="image/*" style="display: none;" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary">إرسال الطلب</button>
+        </form>
+    </div>
+
+    <!-- شريط القائمة السفلي -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="showPage('home')">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('orders')">
+            <i class="fas fa-shopping-bag"></i>
+            <span>طلباتي</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('profile')">
+            <i class="fas fa-user"></i>
+            <span>ملفي</span>
+        </a>
+        <a href="#" class="nav-item" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>تسجيل خروج</span>
+        </a>
+    </div>
+
+    <!-- التنبيهات -->
+    <div id="alert" class="alert" style="display: none;"></div>
+
+    <!-- النافذة المنبثقة للتحميل -->
+    <div id="loading-modal" class="modal">
+        <div class="modal-content">
+            <div class="loader"></div>
+            <p style="text-align: center; margin-top: 15px;">جاري المعالجة...</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_D7R6lQbvsTVR_0eUKql3bEaXvJhhYiM",
+            authDomain: "linky-fa141.firebaseapp.com",
+            databaseURL: "https://linky-fa141-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "linky-fa141",
+            storageBucket: "linky-fa141.firebasestorage.app",
+            messagingSenderId: "762955451050",
+            appId: "1:762955451050:web:14dbca082bea9de8881ed3",
+            measurementId: "G-4RRG7GBM9L"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+        const storage = firebase.storage();
+
+        // بيانات الباقات
+        const packages = [
+            { id: 1, coins: 1000, price: 2, color: "#8a2be2" },
+            { id: 2, coins: 2000, price: 3.5, color: "#9932cc" },
+            { id: 3, coins: 5000, price: 8, color: "#9400d3" },
+            { id: 4, coins: 10000, price: 15, color: "#8b008b" },
+            { id: 5, coins: 20000, price: 28, color: "#800080" },
+            { id: 6, coins: 50000, price: 65, color: "#4b0082" }
+        ];
+
+        // متغيرات التطبيق
+        let currentUser = null;
+        let selectedPackage = null;
+
+        // تهيئة التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            loadPackages();
+            setupEventListeners();
+            
+            // التحقق من حالة تسجيل الدخول
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    loadUserProfile(user.uid);
+                    showPage('home');
+                    updateNav();
+                } else {
+                    showPage('login');
+                }
+            });
+        });
+
+        // تهيئة التطبيق
+        function initApp() {
+            // تحديث شريط التنقل
+            updateNav();
+            
+            // تحميل الصفحة المناسبة
+            const user = auth.currentUser;
+            if (user) {
+                showPage('home');
+            } else {
+                showPage('login');
+            }
+        }
+
+        // عرض صفحة معينة
+        function showPage(pageId) {
+            // إخفاء جميع الصفحات
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // تحديث القائمة السفلية
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // إظهار الصفحة المطلوبة
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            
+            // تحديث القائمة السفلية
+            if (pageId === 'home') {
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+            } else if (pageId === 'orders') {
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+            } else if (pageId === 'profile') {
+                document.querySelectorAll('.nav-item')[2].classList.add('active');
+            }
+            
+            // إذا كانت صفحة الطلبات، قم بتحميل الطلبات
+            if (pageId === 'orders' && currentUser) {
+                loadUserOrders(currentUser.uid);
+            }
+        }
+
+        // تحديث شريط التنقل
+        function updateNav() {
+            const user = auth.currentUser;
+            if (user) {
+                document.querySelector('.nav-icons').style.display = 'flex';
+                document.querySelector('.bottom-nav').style.display = 'flex';
+            } else {
+                document.querySelector('.nav-icons').style.display = 'none';
+                document.querySelector('.bottom-nav').style.display = 'none';
+            }
+        }
+
+        // تحميل الباقات
+        function loadPackages() {
+            const grid = document.getElementById('packages-grid');
+            grid.innerHTML = '';
+            
+            packages.forEach(pkg => {
+                const packageCard = document.createElement('div');
+                packageCard.className = 'package-card';
+                packageCard.style.borderTopColor = pkg.color;
+                packageCard.innerHTML = `
+                    <div class="coins">${pkg.coins.toLocaleString()} عملة</div>
+                    <div class="price">${pkg.price}$</div>
+                    <button class="buy-btn" onclick="selectPackage(${pkg.id})">
+                        <i class="fas fa-shopping-cart"></i> شراء الآن
+                    </button>
+                `;
+                grid.appendChild(packageCard);
+            });
+        }
+
+        // اختيار باقة
+        function selectPackage(packageId) {
+            if (!currentUser) {
+                showAlert('الرجاء تسجيل الدخول أولاً', 'error');
+                showPage('login');
+                return;
+            }
+            
+            selectedPackage = packages.find(p => p.id === packageId);
+            document.getElementById('selected-package-info').innerHTML = `
+                <div class="coins">${selectedPackage.coins.toLocaleString()} عملة</div>
+                <div class="price">السعر: ${selectedPackage.price}$</div>
+            `;
+            showPage('payment');
+        }
+
+        // معاينة الصورة
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('image-preview');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // عرض تنبيه
+        function showAlert(message, type = 'success') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // عرض/إخفاء نافذة التحميل
+        function showLoading(show) {
+            document.getElementById('loading-modal').style.display = show ? 'flex' : 'none';
+        }
+
+        // تحميل الملف الشخصي
+        async function loadUserProfile(userId) {
+            try {
+                const snapshot = await database.ref('users/' + userId).once('value');
+                const userData = snapshot.val();
+                
+                if (userData) {
+                    document.getElementById('user-name').textContent = userData.username || 'اسم المستخدم';
+                    document.getElementById('user-email').textContent = userData.email || currentUser.email;
+                    document.getElementById('user-join-date').textContent = userData.joinDate || '2024-01-01';
+                    
+                    if (userData.profileImage) {
+                        document.getElementById('user-profile-img').src = userData.profileImage;
+                    }
+                }
+                
+                // تحميل إحصائيات الطلبات
+                loadUserOrdersCount(userId);
+            } catch (error) {
+                console.error('خطأ في تحميل الملف الشخصي:', error);
+            }
+        }
+
+        // تحميل عدد الطلبات
+        async function loadUserOrdersCount(userId) {
+            try {
+                const snapshot = await database.ref('orders').orderByChild('userId').equalTo(userId).once('value');
+                const orders = snapshot.val();
+                let totalOrders = 0;
+                let completedOrders = 0;
+                
+                if (orders) {
+                    totalOrders = Object.keys(orders).length;
+                    completedOrders = Object.values(orders).filter(order => order.status === 'completed').length;
+                }
+                
+                document.getElementById('user-orders-count').textContent = totalOrders;
+                document.getElementById('user-completed-orders').textContent = completedOrders;
+                document.getElementById('orders-badge').textContent = totalOrders;
+            } catch (error) {
+                console.error('خطأ في تحميل عدد الطلبات:', error);
+            }
+        }
+
+        // تحميل طلبات المستخدم
+        async function loadUserOrders(userId) {
+            try {
+                showLoading(true);
+                const snapshot = await database.ref('orders').orderByChild('userId').equalTo(userId).once('value');
+                const orders = snapshot.val();
+                const ordersList = document.getElementById('orders-list');
+                ordersList.innerHTML = '';
+                
+                if (!orders) {
+                    ordersList.innerHTML = '<p style="text-align: center; color: var(--gray-color); margin-top: 50px;">لا توجد طلبات بعد</p>';
+                    return;
+                }
+                
+                Object.entries(orders).forEach(([orderId, order]) => {
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'order-card';
+                    orderCard.innerHTML = `
+                        <div class="order-header">
+                            <div>
+                                <strong>رقم الطلب: #${orderId.substring(0, 8)}</strong>
+                                <p style="color: var(--gray-color); font-size: 14px; margin-top: 5px;">
+                                    ${order.date || 'غير محدد'}
+                                </p>
+                            </div>
+                            <div class="order-status ${order.status === 'completed' ? 'status-completed' : 'status-pending'}">
+                                ${order.status === 'completed' ? 'تم التحويل' : 'قيد المراجعة'}
+                            </div>
+                        </div>
+                        <div class="order-details">
+                            <div>
+                                <small>الكمية:</small>
+                                <p><strong>${order.coins ? order.coins.toLocaleString() : 0} عملة</strong></p>
+                            </div>
+                            <div>
+                                <small>المبلغ:</small>
+                                <p><strong>${order.amount || 0}$</strong></p>
+                            </div>
+                            <div>
+                                <small>رقم الهاتف:</small>
+                                <p><strong>${order.senderPhone || 'غير محدد'}</strong></p>
+                            </div>
+                            <div>
+                                <small>حالة الطلب:</small>
+                                <p><strong>${order.status === 'completed' ? 'مكتمل' : 'قيد المعالجة'}</strong></p>
+                            </div>
+                        </div>
+                    `;
+                    ordersList.appendChild(orderCard);
+                });
+            } catch (error) {
+                console.error('خطأ في تحميل الطلبات:', error);
+                showAlert('حدث خطأ في تحميل الطلبات', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            // تسجيل الدخول
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                try {
+                    showLoading(true);
+                    await auth.signInWithEmailAndPassword(email, password);
+                    showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                } catch (error) {
+                    showAlert(error.message, 'error');
+                } finally {
+                    showLoading(false);
+                }
+            });
+
+            // إنشاء حساب
+            document.getElementById('register-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('register-username').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const profilePic = document.getElementById('profile-pic').files[0];
+                
+                try {
+                    showLoading(true);
+                    // إنشاء المستخدم
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    
+                    // رفع صورة الملف الشخصي إذا كانت موجودة
+                    let profileImageUrl = '';
+                    if (profilePic) {
+                        const storageRef = storage.ref('profile_pictures/' + user.uid);
+                        await storageRef.put(profilePic);
+                        profileImageUrl = await storageRef.getDownloadURL();
+                    }
+                    
+                    // حفظ بيانات المستخدم في قاعدة البيانات
+                    await database.ref('users/' + user.uid).set({
+                        username: username,
+                        email: email,
+                        profileImage: profileImageUrl,
+                        joinDate: new Date().toISOString().split('T')[0],
+                        agencyCode: 'gghgv'
+                    });
+                    
+                    showAlert('تم إنشاء الحساب بنجاح!', 'success');
+                } catch (error) {
+                    showAlert(error.message, 'error');
+                } finally {
+                    showLoading(false);
+                }
+            });
+
+            // إرسال طلب الدفع
+            document.getElementById('payment-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!selectedPackage || !currentUser) return;
+                
+                const linkyId = document.getElementById('linky-id').value;
+                const senderPhone = document.getElementById('sender-phone').value;
+                const whatsappNumber = document.getElementById('whatsapp-number').value;
+                const receiptFile = document.getElementById('receipt').files[0];
+                
+                if (!receiptFile) {
+                    showAlert('الرجاء رفع صورة الإيصال', 'error');
+                    return;
+                }
+                
+                try {
+                    showLoading(true);
+                    
+                    // رفع صورة الإيصال
+                    const receiptRef = storage.ref('receipts/' + Date.now() + '_' + currentUser.uid);
+                    await receiptRef.put(receiptFile);
+                    const receiptUrl = await receiptRef.getDownloadURL();
+                    
+                    // حفظ الطلب في قاعدة البيانات
+                    const orderData = {
+                        userId: currentUser.uid,
+                        username: currentUser.displayName || document.getElementById('user-name').textContent,
+                        userEmail: currentUser.email,
+                        packageId: selectedPackage.id,
+                        coins: selectedPackage.coins,
+                        amount: selectedPackage.price,
+                        linkyId: linkyId,
+                        senderPhone: senderPhone,
+                        whatsappNumber: whatsappNumber || '',
+                        receiptUrl: receiptUrl,
+                        status: 'pending',
+                        date: new Date().toISOString(),
+                        vodafoneNumber: '01011111111'
+                    };
+                    
+                    const newOrderRef = database.ref('orders').push();
+                    await newOrderRef.set(orderData);
+                    
+                    // إرسال إشعار للإدمن
+                    await database.ref('admin_notifications').push({
+                        type: 'new_order',
+                        orderId: newOrderRef.key,
+                        userId: currentUser.uid,
+                        username: orderData.username,
+                        amount: orderData.amount,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                    
+                    showAlert('تم إرسال طلبك بنجاح! سيتم مراجعته قريباً', 'success');
+                    
+                    // إعادة تعيين النموذج
+                    document.getElementById('payment-form').reset();
+                    selectedPackage = null;
+                    
+                    // العودة للصفحة الرئيسية
+                    setTimeout(() => {
+                        showPage('home');
+                        loadUserOrdersCount(currentUser.uid);
+                    }, 2000);
+                    
+                } catch (error) {
+                    showAlert(error.message, 'error');
+                } finally {
+                    showLoading(false);
+                }
+            });
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                auth.signOut().then(() => {
+                    showAlert('تم تسجيل الخروج بنجاح', 'success');
+                    showPage('login');
+                }).catch((error) => {
+                    showAlert(error.message, 'error');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
