@@ -3,53 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#7C3AED">
     <title>👑 وكالة الملكة | شحن عملات Linky</title>
+    
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- App Manifest for PWA -->
+    <link rel="manifest" href="/manifest.json">
+    
     <style>
-        /* ===== متغيرات التصميم ===== */
+        /* ===== متغيرات التصميم المحسنة ===== */
         :root {
-            /* نظام ألوان أنيق */
+            /* نظام ألوان حديث */
             --primary: #7C3AED;
             --primary-light: #8B5CF6;
-            --primary-dark: #6D28D9;
+            --primary-dark: #5B21B6;
+            --primary-rgb: 124, 58, 237;
             --secondary: #EC4899;
+            --secondary-rgb: 236, 72, 153;
             --accent: #10B981;
+            --accent-rgb: 16, 185, 129;
             --warning: #F59E0B;
+            --warning-rgb: 245, 158, 11;
+            --danger: #EF4444;
+            --danger-rgb: 239, 68, 68;
+            --success: #10B981;
+            
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            --gradient-light: linear-gradient(135deg, var(--primary-light) 0%, #F472B6 100%);
-            --gradient-dark: linear-gradient(135deg, var(--primary-dark) 0%, #DB2777 100%);
+            --gradient-hover: linear-gradient(135deg, var(--primary-dark) 0%, #DB2777 100%);
+            --gradient-light: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(var(--secondary-rgb), 0.1) 100%);
             
             /* ألوان النص */
             --text-primary: #1F2937;
-            --text-secondary: #6B7280;
-            --text-light: #9CA3AF;
+            --text-secondary: #4B5563;
+            --text-tertiary: #9CA3AF;
+            --text-white: #FFFFFF;
             
-            /* ألوان الخلفية */
+            /* خلفيات */
             --bg-primary: #F9FAFB;
             --bg-secondary: #FFFFFF;
             --bg-card: #FFFFFF;
-            --bg-hover: rgba(124, 58, 237, 0.05);
-            --bg-overlay: rgba(0, 0, 0, 0.5);
+            --bg-hover: rgba(var(--primary-rgb), 0.05);
+            --bg-overlay: rgba(0, 0, 0, 0.6);
+            --bg-gradient: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
             
             /* تأثيرات */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             --shadow-2xl: 0 25px 50px -12px rgba(124, 58, 237, 0.25);
+            --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
             
             /* أنيميشن */
-            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             
             /* أبعاد */
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
-            --radius-xl: 24px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
             --radius-full: 9999px;
             
             /* مسافات */
@@ -59,12 +79,15 @@
             --space-lg: 24px;
             --space-xl: 32px;
             --space-2xl: 48px;
+            --space-3xl: 64px;
             
             /* حدود الشاشة */
-            --screen-padding: 16px;
+            --screen-padding: max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-left));
+            --header-height: 64px;
+            --nav-height: 72px;
         }
 
-        /* ===== إعادة الضبط ===== */
+        /* ===== إعادة الضبط والأنماط الأساسية ===== */
         * {
             margin: 0;
             padding: 0;
@@ -78,19 +101,38 @@
         }
 
         body {
-            font-family: 'Tajawal', 'IBM Plex Sans Arabic', sans-serif;
-            background: var(--bg-primary);
+            font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-gradient);
             color: var(--text-primary);
-            max-width: 100%;
+            line-height: 1.5;
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            padding: var(--screen-padding);
         }
 
-        /* خلفية ديناميكية */
+        /* ===== تحسينات للنصوص ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ===== خلفية ديناميكية ===== */
         .bg-pattern {
             position: fixed;
             top: 0;
@@ -98,39 +140,47 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
             z-index: -1;
+            pointer-events: none;
         }
 
         /* ===== هيكل التطبيق الرئيسي ===== */
         .app-container {
             min-height: 100vh;
-            max-width: 100%;
             position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* ===== الشريط العلوي ===== */
+        /* ===== شريط التنقل العلوي المحسن ===== */
         .app-header {
             position: fixed;
             top: 0;
             right: 0;
             left: 0;
-            background: var(--bg-secondary);
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: var(--space-md) var(--screen-padding);
-            box-shadow: var(--shadow-sm);
             border-bottom: 1px solid rgba(124, 58, 237, 0.1);
-            height: 64px;
+            z-index: 1000;
+            padding: 0 var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
         }
 
         .header-content {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            height: 100%;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
@@ -138,6 +188,11 @@
             align-items: center;
             gap: var(--space-sm);
             text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .logo:hover {
+            transform: translateY(-1px);
         }
 
         .logo-icon {
@@ -148,7 +203,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 1.25rem;
             color: white;
             box-shadow: var(--shadow-md);
         }
@@ -159,14 +214,14 @@
         }
 
         .logo-title {
-            font-size: 18px;
-            font-weight: 800;
+            font-size: 1.125rem;
+            font-weight: 900;
             color: var(--primary);
             line-height: 1.2;
         }
 
         .logo-subtitle {
-            font-size: 11px;
+            font-size: 0.6875rem;
             color: var(--text-secondary);
             font-weight: 500;
         }
@@ -177,56 +232,58 @@
             align-items: center;
         }
 
-        .icon-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-full);
-            display: flex;
+        .btn {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            border: none;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            position: relative;
+            gap: var(--space-sm);
         }
 
-        .icon-btn:hover {
-            background: var(--bg-hover);
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-hover);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        .notification-badge {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 8px;
-            height: 8px;
-            background: var(--secondary);
-            border-radius: 50%;
-            border: 2px solid var(--bg-secondary);
+        .btn-secondary {
+            background: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(var(--primary-rgb), 0.2);
+            transform: translateY(-1px);
         }
 
         /* ===== المحتوى الرئيسي ===== */
         .main-content {
-            padding-top: 64px;
-            padding-bottom: 80px;
+            padding-top: calc(var(--header-height) + var(--space-lg));
+            padding-bottom: calc(var(--nav-height) + var(--space-lg));
             min-height: 100vh;
-            max-width: 100%;
-            overflow-x: hidden;
         }
 
-        /* ===== بطاقة الترحيب ===== */
+        /* ===== بطاقة الترحيب المحسنة ===== */
         .welcome-card {
             background: var(--gradient);
-            border-radius: var(--radius-xl);
-            margin: var(--space-md) var(--screen-padding);
-            padding: var(--space-xl);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow-2xl);
-            animation: slideInDown 0.6s ease-out;
+            animation: slideInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .welcome-card::before {
@@ -236,25 +293,31 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            animation: shine 3s infinite;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+            animation: shine 3s infinite linear;
         }
 
         @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .welcome-icon {
-            font-size: 40px;
-            color: white;
-            margin-bottom: var(--space-md);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--space-lg);
             text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .welcome-title {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 1.75rem;
+            font-weight: 900;
             color: white;
             margin-bottom: var(--space-sm);
             text-align: center;
@@ -262,68 +325,75 @@
         }
 
         .welcome-subtitle {
-            font-size: 14px;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
             line-height: 1.6;
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .agency-code-card {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
-            padding: var(--space-md);
+            padding: var(--space-lg);
             border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             transition: var(--transition-normal);
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .agency-code-card:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
         .agency-code-label {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 0.875rem;
+            font-weight: 600;
         }
 
         .agency-code-value {
             color: white;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 800;
             letter-spacing: 1px;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
         }
 
-        /* ===== بطاقات الباقات ===== */
+        /* ===== بطاقات الباقات المحسنة ===== */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 var(--screen-padding);
-            margin: var(--space-xl) 0 var(--space-md);
+            margin-bottom: var(--space-xl);
+            padding: 0 var(--space-sm);
         }
 
         .section-title {
-            font-size: 20px;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 900;
             color: var(--text-primary);
             position: relative;
+            padding-bottom: var(--space-sm);
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: 0;
             right: 0;
-            width: 40px;
-            height: 3px;
+            width: 60px;
+            height: 4px;
             background: var(--gradient);
             border-radius: var(--radius-full);
         }
@@ -333,30 +403,31 @@
             align-items: center;
             gap: var(--space-xs);
             color: var(--primary);
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 0.875rem;
+            font-weight: 700;
             text-decoration: none;
             padding: var(--space-xs) var(--space-sm);
             border-radius: var(--radius-full);
             transition: var(--transition-fast);
+            background: var(--gradient-light);
         }
 
         .view-all-btn:hover {
-            background: var(--bg-hover);
-            transform: translateX(-2px);
+            background: rgba(var(--primary-rgb), 0.15);
+            transform: translateX(-3px);
         }
 
         .packages-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: var(--space-md);
-            padding: 0 var(--screen-padding);
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
         }
 
         .package-card {
             background: var(--bg-card);
             border-radius: var(--radius-xl);
-            padding: var(--space-lg);
+            padding: var(--space-xl);
             box-shadow: var(--shadow-lg);
             border: 1px solid rgba(124, 58, 237, 0.1);
             transition: var(--transition-normal);
@@ -365,68 +436,81 @@
         }
 
         .package-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-2xl);
-            border-color: var(--primary-light);
+            border-color: var(--primary);
         }
 
-        .package-badge {
+        .package-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.02);
+        }
+
+        .package-card.popular::before {
+            content: 'الأكثر طلباً';
             position: absolute;
-            top: 12px;
-            left: 12px;
+            top: 16px;
+            left: 16px;
             background: var(--secondary);
             color: white;
             padding: 4px 12px;
             border-radius: var(--radius-full);
-            font-size: 11px;
+            font-size: 0.75rem;
             font-weight: 700;
             z-index: 1;
         }
 
         .package-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-light);
             border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-lg);
         }
 
         .package-icon i {
-            font-size: 24px;
+            font-size: 1.75rem;
             color: var(--primary);
         }
 
         .package-coins {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 1.75rem;
+            font-weight: 900;
             color: var(--text-primary);
             margin-bottom: var(--space-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .package-coins i {
+            color: var(--warning);
         }
 
         .package-price {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 900;
             color: var(--primary);
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-lg);
         }
 
         .price-unit {
-            font-size: 14px;
+            font-size: 1rem;
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .buy-btn {
             width: 100%;
-            padding: 12px;
+            padding: var(--space-md);
             background: var(--gradient);
             color: white;
             border: none;
             border-radius: var(--radius-lg);
-            font-size: 14px;
+            font-size: 0.875rem;
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition-normal);
@@ -437,26 +521,19 @@
         }
 
         .buy-btn:hover {
-            background: var(--gradient-dark);
+            background: var(--gradient-hover);
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
 
-        /* ===== تصميم رفع الملفات الجديد ===== */
-        .file-upload-wrapper {
-            position: relative;
-            margin-bottom: var(--space-md);
+        .buy-btn:active {
+            transform: translateY(0);
         }
 
-        .file-upload-input {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
+        /* ===== تصميم رفع الملفات المحسن ===== */
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: var(--space-lg);
         }
 
         .file-upload-label {
@@ -464,71 +541,69 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: var(--space-xl);
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(236, 72, 153, 0.05));
-            border: 2px dashed var(--primary-light);
+            padding: var(--space-2xl);
+            background: var(--gradient-light);
+            border: 2px dashed var(--primary);
             border-radius: var(--radius-xl);
             cursor: pointer;
             transition: var(--transition-normal);
             text-align: center;
-            min-height: 180px;
+            min-height: 200px;
         }
 
         .file-upload-label:hover {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
-            border-color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.15);
+            border-color: var(--primary-dark);
             transform: translateY(-2px);
         }
 
         .file-upload-label i {
-            font-size: 48px;
+            font-size: 3rem;
             color: var(--primary);
-            margin-bottom: var(--space-md);
-            opacity: 0.7;
+            margin-bottom: var(--space-lg);
             transition: var(--transition-normal);
         }
 
         .file-upload-label:hover i {
-            opacity: 1;
-            transform: scale(1.1);
+            transform: translateY(-5px);
         }
 
         .file-upload-text {
             color: var(--text-primary);
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 1.125rem;
+            font-weight: 700;
             margin-bottom: var(--space-xs);
         }
 
         .file-upload-subtext {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
         .file-preview {
             width: 100%;
-            margin-top: var(--space-md);
+            margin-top: var(--space-lg);
             position: relative;
         }
 
         .file-preview-image {
             width: 100%;
-            max-width: 200px;
+            max-width: 300px;
             height: auto;
             border-radius: var(--radius-lg);
-            border: 3px solid var(--primary-light);
-            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--primary);
+            box-shadow: var(--shadow-xl);
             display: block;
             margin: 0 auto;
         }
 
         .remove-image-btn {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 32px;
-            height: 32px;
-            background: var(--secondary);
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: var(--danger);
             color: white;
             border: none;
             border-radius: var(--radius-full);
@@ -537,119 +612,33 @@
             justify-content: center;
             cursor: pointer;
             transition: var(--transition-fast);
-            font-size: 14px;
+            font-size: 1rem;
+            box-shadow: var(--shadow-md);
         }
 
         .remove-image-btn:hover {
-            background: #DB2777;
+            background: #DC2626;
             transform: scale(1.1);
-        }
-
-        /* ===== نموذج الرفع البديل (زر +) ===== */
-        .upload-plus-btn {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient);
-            border-radius: var(--radius-xl);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition-normal);
             box-shadow: var(--shadow-lg);
-            margin: var(--space-md) auto;
         }
 
-        .upload-plus-btn i {
-            font-size: 32px;
-            color: white;
-            transition: var(--transition-normal);
-        }
-
-        .upload-plus-btn:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: var(--shadow-2xl);
-        }
-
-        /* ===== التصميم المتجاوب ===== */
-        @media (max-width: 480px) {
-            :root {
-                --screen-padding: 12px;
-            }
-            
-            .packages-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: var(--space-sm);
-            }
-            
-            .package-card {
-                padding: var(--space-md);
-            }
-            
-            .package-icon {
-                width: 40px;
-                height: 40px;
-                margin-bottom: var(--space-sm);
-            }
-            
-            .package-icon i {
-                font-size: 20px;
-            }
-            
-            .package-coins {
-                font-size: 20px;
-            }
-            
-            .package-price {
-                font-size: 18px;
-            }
-            
-            .welcome-card {
-                padding: var(--space-lg);
-                margin: var(--space-sm) var(--screen-padding);
-            }
-            
-            .welcome-title {
-                font-size: 20px;
-            }
-            
-            .welcome-subtitle {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .packages-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .logo-title {
-                font-size: 16px;
-            }
-            
-            .logo-subtitle {
-                font-size: 10px;
-            }
-        }
-
-        /* ===== شريط التنقل السفلي ===== */
+        /* ===== شريط التنقل السفلي المحسن ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             right: 0;
             left: 0;
-            background: var(--bg-secondary);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: var(--space-sm) var(--screen-padding);
+            padding: var(--space-sm) var(--space-md);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid rgba(124, 58, 237, 0.1);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(124, 58, 237, 0.15);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
             z-index: 1000;
-            height: 72px;
+            height: var(--nav-height);
         }
 
         .nav-item {
@@ -659,28 +648,29 @@
             justify-content: center;
             text-decoration: none;
             color: var(--text-secondary);
-            padding: var(--space-xs) var(--space-sm);
+            padding: var(--space-sm);
             border-radius: var(--radius-lg);
             transition: var(--transition-fast);
-            min-width: 56px;
             position: relative;
+            flex: 1;
+            max-width: 80px;
         }
 
         .nav-item i {
-            font-size: 20px;
+            font-size: 1.25rem;
             margin-bottom: 4px;
             transition: var(--transition-fast);
         }
 
         .nav-item span {
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 0.75rem;
+            font-weight: 700;
             transition: var(--transition-fast);
         }
 
         .nav-item.active {
             color: var(--primary);
-            background: var(--bg-hover);
+            background: var(--gradient-light);
         }
 
         .nav-item.active i {
@@ -689,12 +679,12 @@
 
         .nav-center {
             position: relative;
-            margin-top: -24px;
+            margin-top: -32px;
         }
 
         .nav-center-btn {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             background: var(--gradient);
             border-radius: var(--radius-full);
             border: none;
@@ -702,17 +692,17 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 1.5rem;
             cursor: pointer;
             transition: var(--transition-normal);
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-2xl);
             position: relative;
             z-index: 2;
         }
 
         .nav-center-btn:hover {
             transform: translateY(-4px) rotate(90deg);
-            box-shadow: var(--shadow-2xl);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.4);
         }
 
         /* ===== الصفحات ===== */
@@ -729,19 +719,21 @@
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             background: var(--bg-primary);
+            padding-top: var(--header-height);
+            padding-bottom: var(--nav-height);
         }
 
         .page.active {
             opacity: 1;
             visibility: visible;
             pointer-events: all;
-            animation: pageSlideIn 0.4s ease-out;
+            animation: pageSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes pageSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -749,51 +741,74 @@
             }
         }
 
-        /* ===== صفحة الدفع ===== */
+        /* ===== صفحة الدفع المحسنة ===== */
         .payment-header {
-            padding: var(--space-xl) var(--screen-padding);
+            padding: var(--space-2xl) var(--space-lg);
             text-align: center;
             background: var(--gradient);
             color: white;
-            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-            margin-bottom: var(--space-lg);
+            border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+            margin-bottom: var(--space-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
         }
 
         .payment-amount {
-            font-size: 48px;
-            font-weight: 800;
+            font-size: 3.5rem;
+            font-weight: 900;
             margin: var(--space-sm) 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .payment-currency {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             opacity: 0.9;
         }
 
         .payment-info {
-            padding: 0 var(--screen-padding);
+            padding: 0 var(--space-lg);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .form-group {
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-xl);
         }
 
         .form-label {
             display: block;
             margin-bottom: var(--space-sm);
             color: var(--text-primary);
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .form-label i {
+            color: var(--primary);
         }
 
         .form-input {
             width: 100%;
-            padding: 16px;
+            padding: 16px 20px;
             background: var(--bg-card);
-            border: 2px solid rgba(124, 58, 237, 0.1);
+            border: 2px solid rgba(124, 58, 237, 0.15);
             border-radius: var(--radius-lg);
-            font-size: 16px;
+            font-size: 1rem;
             font-family: inherit;
             color: var(--text-primary);
             transition: var(--transition-fast);
@@ -802,55 +817,67 @@
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
         }
 
         .form-input::placeholder {
-            color: var(--text-light);
+            color: var(--text-tertiary);
         }
 
         .btn-submit {
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             background: var(--gradient);
             color: white;
             border: none;
             border-radius: var(--radius-lg);
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 1.125rem;
+            font-weight: 800;
             cursor: pointer;
             transition: var(--transition-normal);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-sm);
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
         }
 
         .btn-submit:hover {
-            background: var(--gradient-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: var(--gradient-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-2xl);
         }
 
-        /* ===== صفحة الملف الشخصي ===== */
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        /* ===== صفحة الملف الشخصي المحسنة ===== */
         .profile-header {
             text-align: center;
-            padding: var(--space-xl) var(--screen-padding);
+            padding: var(--space-2xl) var(--space-lg);
             background: var(--gradient);
-            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
             color: white;
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            position: relative;
+            overflow: hidden;
         }
 
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: var(--radius-full);
             border: 4px solid white;
-            margin: 0 auto var(--space-md);
+            margin: 0 auto var(--space-lg);
             overflow: hidden;
             position: relative;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-2xl);
+            transition: var(--transition-normal);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
         }
 
         .profile-avatar img {
@@ -860,71 +887,253 @@
         }
 
         .profile-name {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 1.75rem;
+            font-weight: 900;
             margin-bottom: var(--space-xs);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .profile-email {
-            font-size: 14px;
+            font-size: 1rem;
             opacity: 0.9;
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-xl);
         }
 
         .profile-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: var(--space-sm);
-            padding: 0 var(--screen-padding);
-            margin-bottom: var(--space-lg);
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
             padding: var(--space-md);
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition-fast);
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         .stat-value {
-            font-size: 20px;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 900;
             color: white;
             margin-bottom: 4px;
         }
 
         .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
         }
 
-        /* ===== التنبيهات ===== */
+        /* ===== صفحة الطلبات المحسنة ===== */
+        .orders-container {
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .orders-grid {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .order-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition-normal);
+        }
+
+        .order-card:hover {
+            transform: translateX(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .order-card.completed {
+            border-left-color: var(--success);
+        }
+
+        .order-card.pending {
+            border-left-color: var(--warning);
+        }
+
+        .order-card.cancelled {
+            border-left-color: var(--danger);
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-processing {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* ===== صفحة المصادقة المحسنة ===== */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-xl);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(236, 72, 153, 0.05));
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid rgba(124, 58, 237, 0.1);
+            animation: authSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes authSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .auth-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--gradient);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto var(--space-lg);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 800;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .auth-link:hover {
+            color: var(--secondary);
+        }
+
+        .auth-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition-normal);
+        }
+
+        .auth-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== التنبيهات المحسنة ===== */
         .toast-container {
             position: fixed;
-            top: 20px;
-            left: var(--screen-padding);
-            right: var(--screen-padding);
+            top: calc(var(--header-height) + var(--space-md));
+            left: var(--space-md);
+            right: var(--space-md);
             z-index: 9999;
+            pointer-events: none;
         }
 
         .toast {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
-            padding: var(--space-md);
+            padding: var(--space-lg);
             margin-bottom: var(--space-sm);
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-2xl);
             border-right: 4px solid;
-            animation: toastSlideIn 0.3s ease-out, toastFadeOut 0.3s ease-out 4.7s forwards;
+            animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1), toastFadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) 4.6s forwards;
             display: flex;
             align-items: center;
             gap: var(--space-md);
+            pointer-events: all;
+            backdrop-filter: blur(10px);
         }
 
         @keyframes toastSlideIn {
             from {
-                transform: translateY(-20px);
+                transform: translateY(-30px);
                 opacity: 0;
             }
             to {
@@ -936,40 +1145,43 @@
         @keyframes toastFadeOut {
             to {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-30px);
             }
         }
 
         .toast-icon {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 1.25rem;
             color: white;
             flex-shrink: 0;
         }
 
         .toast-success {
-            border-color: var(--accent);
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
         }
 
         .toast-success .toast-icon {
-            background: var(--accent);
+            background: var(--success);
         }
 
         .toast-error {
-            border-color: var(--secondary);
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
         }
 
         .toast-error .toast-icon {
-            background: var(--secondary);
+            background: var(--danger);
         }
 
         .toast-info {
             border-color: var(--warning);
+            background: rgba(245, 158, 11, 0.05);
         }
 
         .toast-info .toast-icon {
@@ -981,18 +1193,19 @@
         }
 
         .toast-title {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 0.875rem;
+            font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 2px;
         }
 
         .toast-message {
-            font-size: 13px;
+            font-size: 0.8125rem;
             color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        /* ===== التحميل ===== */
+        /* ===== التحميل المحسن ===== */
         .loader-overlay {
             position: fixed;
             top: 0;
@@ -1005,120 +1218,85 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .loader {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             position: relative;
         }
 
         .loader-dot {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             background: var(--gradient);
             border-radius: 50%;
             animation: loaderSpin 1.2s infinite ease-in-out;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
 
-        .loader-dot:nth-child(1) { top: 0; left: 24px; animation-delay: -0.4s; }
-        .loader-dot:nth-child(2) { top: 8px; left: 8px; animation-delay: -0.8s; }
-        .loader-dot:nth-child(3) { top: 24px; left: 0; animation-delay: -1.2s; }
-        .loader-dot:nth-child(4) { top: 40px; left: 8px; animation-delay: -1.6s; }
-        .loader-dot:nth-child(5) { top: 48px; left: 24px; animation-delay: -2s; }
-        .loader-dot:nth-child(6) { top: 40px; left: 40px; animation-delay: -2.4s; }
-        .loader-dot:nth-child(7) { top: 24px; left: 48px; animation-delay: -2.8s; }
-        .loader-dot:nth-child(8) { top: 8px; left: 40px; animation-delay: -3.2s; }
+        .loader-dot:nth-child(1) { top: 0; left: 32px; animation-delay: -0.4s; }
+        .loader-dot:nth-child(2) { top: 11px; left: 11px; animation-delay: -0.8s; }
+        .loader-dot:nth-child(3) { top: 32px; left: 0; animation-delay: -1.2s; }
+        .loader-dot:nth-child(4) { top: 53px; left: 11px; animation-delay: -1.6s; }
+        .loader-dot:nth-child(5) { top: 64px; left: 32px; animation-delay: -2s; }
+        .loader-dot:nth-child(6) { top: 53px; left: 53px; animation-delay: -2.4s; }
+        .loader-dot:nth-child(7) { top: 32px; left: 64px; animation-delay: -2.8s; }
+        .loader-dot:nth-child(8) { top: 11px; left: 53px; animation-delay: -3.2s; }
 
         @keyframes loaderSpin {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.5); opacity: 0.5; }
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+            }
+            50% { 
+                transform: scale(0.5); 
+                opacity: 0.5; 
+                box-shadow: 0 2px 6px rgba(124, 58, 237, 0.2);
+            }
         }
 
-        /* ===== صفحة التسجيل ===== */
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--space-xl) var(--screen-padding);
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(236, 72, 153, 0.05));
+        /* ===== تأثير اللمس المحسن ===== */
+        .touch-feedback {
+            position: relative;
+            overflow: hidden;
         }
 
-        .auth-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-xl);
-            padding: var(--space-xl);
-            width: 100%;
-            max-width: 400px;
-            box-shadow: var(--shadow-2xl);
-            border: 1px solid rgba(124, 58, 237, 0.1);
+        .touch-feedback:active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple 0.6s ease-out;
         }
 
-        .auth-header {
-            text-align: center;
-            margin-bottom: var(--space-xl);
+        @keyframes ripple {
+            to {
+                transform: translate(-50%, -50%) scale(4);
+                opacity: 0;
+            }
         }
 
-        .auth-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--gradient);
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            margin: 0 auto var(--space-md);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .auth-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: var(--space-sm);
-        }
-
-        .auth-subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: var(--space-lg);
-            padding-top: var(--space-md);
-            border-top: 1px solid rgba(124, 58, 237, 0.1);
-        }
-
-        .auth-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 700;
-            transition: var(--transition-fast);
-        }
-
-        .auth-link:hover {
-            color: var(--secondary);
-        }
-
-        /* ===== تأثير اللمس ===== */
-        .touch-feedback:active {
-            transform: scale(0.95);
-            opacity: 0.8;
-        }
-
-        /* ===== شريط التمرير ===== */
+        /* ===== شريط التمرير المحسن ===== */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
+            height: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(124, 58, 237, 0.05);
             border-radius: var(--radius-full);
         }
 
@@ -1127,26 +1305,135 @@
             border-radius: var(--radius-full);
         }
 
-        /* ===== تأثيرات اللمس للأجهزة ===== */
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gradient-hover);
+        }
+
+        /* ===== تصميم متجاوب محسن ===== */
+        @media (max-width: 768px) {
+            :root {
+                --screen-padding: max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-left));
+                --space-lg: 20px;
+                --space-xl: 24px;
+                --space-2xl: 32px;
+            }
+
+            .packages-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: var(--space-md);
+            }
+
+            .welcome-card {
+                padding: var(--space-xl);
+                margin: 0 0 var(--space-lg);
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 0.9375rem;
+            }
+
+            .payment-amount {
+                font-size: 2.75rem;
+            }
+
+            .auth-card {
+                padding: var(--space-xl);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-stats {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+
+            .nav-item span {
+                font-size: 0.6875rem;
+            }
+
+            .nav-center {
+                margin-top: -28px;
+            }
+
+            .nav-center-btn {
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            :root {
+                --screen-padding: max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-left));
+            }
+
+            .logo-title {
+                font-size: 1rem;
+            }
+
+            .logo-subtitle {
+                font-size: 0.625rem;
+            }
+
+            .package-card {
+                padding: var(--space-lg);
+            }
+        }
+
+        /* ===== تصحيح للأجهزة التي تدعم hover ===== */
+        @media (hover: hover) and (pointer: fine) {
+            .touch-feedback:active::after {
+                animation: none;
+            }
+        }
+
+        /* ===== أنماط خاصة للأجهزة التي لا تدعم hover ===== */
         @media (hover: none) and (pointer: coarse) {
             .package-card:hover {
                 transform: none;
             }
-            
-            .buy-btn:hover {
-                transform: none;
-            }
-            
+
             .nav-center-btn:hover {
                 transform: none;
             }
-            
-            .upload-plus-btn:hover {
+
+            .btn:hover {
                 transform: none;
             }
-            
-            .file-upload-label:hover {
-                transform: none;
+        }
+
+        /* ===== تحسينات للطباعة ===== */
+        @media print {
+            .app-header,
+            .bottom-nav,
+            .toast-container,
+            .loader-overlay {
+                display: none !important;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .page {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: all;
+                page-break-inside: avoid;
             }
         }
     </style>
@@ -1168,9 +1455,13 @@
                 </div>
             </a>
             <div class="header-actions">
-                <button class="icon-btn" onclick="showNotifications()">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-badge"></div>
+                <button class="btn btn-secondary" onclick="showPage('orders'); return false;">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>طلباتي</span>
+                </button>
+                <button class="btn btn-primary" onclick="showPage('profile'); return false;">
+                    <i class="fas fa-user"></i>
+                    <span>حسابي</span>
                 </button>
             </div>
         </div>
@@ -1185,9 +1476,9 @@
                     <i class="fas fa-gem"></i>
                 </div>
                 <h1 class="welcome-title">مرحباً بك في وكالة الملكة</h1>
-                <p class="welcome-subtitle">أفضل خدمة لشحن العملات مع سرعة التنفيذ وضمان الجودة</p>
-                <div class="agency-code-card" onclick="copyCode('gghgv')">
-                    <div class="agency-code-label">كود الوكالة</div>
+                <p class="welcome-subtitle">أفضل خدمة لشحن عملات Linky مع سرعة تنفيذ فائقة، أسعار تنافسية، وضمان الجودة 100%</p>
+                <div class="agency-code-card" onclick="copyCode('GGHGV')">
+                    <div class="agency-code-label">كود الوكالة الخاص بك</div>
                     <div class="agency-code-value">GGHGV</div>
                 </div>
             </div>
@@ -1195,7 +1486,7 @@
             <div class="section-header">
                 <h2 class="section-title">الباقات المتاحة</h2>
                 <a href="#" class="view-all-btn" onclick="showAllPackages(); return false;">
-                    <span>عرض الكل</span>
+                    <span>عرض جميع الباقات</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
@@ -1203,13 +1494,44 @@
             <div class="packages-grid" id="packages-grid">
                 <!-- سيتم ملؤها بالجافاسكريبت -->
             </div>
+
+            <!-- ميزات الخدمة -->
+            <div class="section-header">
+                <h2 class="section-title">لماذا تختار وكالة الملكة؟</h2>
+            </div>
+            
+            <div class="packages-grid">
+                <div class="package-card">
+                    <div class="package-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-sm); color: var(--text-primary);">سرعة التنفيذ</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">شحن فوري خلال 5-15 دقيقة فقط</p>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-sm); color: var(--text-primary);">ضمان الجودة</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">ضمان 100% على جميع الباقات</p>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-sm); color: var(--text-primary);">دعم فني 24/7</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">خدمة عملاء على مدار الساعة</p>
+                </div>
+            </div>
         </div>
 
         <!-- صفحة الملف الشخصي -->
         <div id="profile-page" class="page">
             <div class="profile-header">
                 <div class="profile-avatar">
-                    <img id="user-profile-img" src="https://ui-avatars.com/api/?name=مستخدم&background=7C3AED&color=fff&size=100" alt="صورة الملف الشخصي">
+                    <img id="user-profile-img" src="https://ui-avatars.com/api/?name=مستخدم&background=7C3AED&color=fff&size=120" alt="صورة الملف الشخصي">
                 </div>
                 <h1 id="user-name" class="profile-name">اسم المستخدم</h1>
                 <p id="user-email" class="profile-email">user@example.com</p>
@@ -1217,11 +1539,11 @@
                 <div class="profile-stats">
                     <div class="stat-item">
                         <div class="stat-value" id="user-total-orders">0</div>
-                        <div class="stat-label">الطلبات</div>
+                        <div class="stat-label">إجمالي الطلبات</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="user-completed-orders">0</div>
-                        <div class="stat-label">مكتملة</div>
+                        <div class="stat-label">طلبات مكتملة</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value">GGHGV</div>
@@ -1230,18 +1552,45 @@
                 </div>
             </div>
             
-            <div style="padding: 0 var(--screen-padding);">
-                <h3 class="section-title" style="margin: var(--space-lg) 0 var(--space-md);">معلومات الحساب</h3>
-                <div style="background: var(--bg-card); padding: var(--space-lg); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md);">
+            <div style="padding: 0 var(--space-lg);">
+                <div class="section-header" style="margin: 0 0 var(--space-lg);">
+                    <h2 class="section-title">معلومات الحساب</h2>
+                </div>
+                
+                <div style="background: var(--bg-card); padding: var(--space-xl); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-xl);">
                         <div>
-                            <div style="color: var(--text-secondary); font-size: 13px; margin-bottom: 4px;">تاريخ التسجيل</div>
-                            <div style="font-weight: 600; color: var(--text-primary);" id="user-join-date">2024-01-01</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>تاريخ التسجيل</span>
+                            </div>
+                            <div style="font-weight: 800; color: var(--text-primary); font-size: 1.125rem;" id="user-join-date">2024-01-01</div>
                         </div>
                         <div>
-                            <div style="color: var(--text-secondary); font-size: 13px; margin-bottom: 4px;">حالة الحساب</div>
-                            <div style="font-weight: 600; color: var(--accent);">نشط ✓</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                                <i class="fas fa-badge-check"></i>
+                                <span>حالة الحساب</span>
+                            </div>
+                            <div style="font-weight: 800; color: var(--accent); font-size: 1.125rem;">
+                                <i class="fas fa-check-circle"></i> نشط
+                            </div>
                         </div>
+                        <div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                                <i class="fas fa-star"></i>
+                                <span>مستوى العضوية</span>
+                            </div>
+                            <div style="font-weight: 800; color: var(--primary); font-size: 1.125rem;">
+                                <i class="fas fa-crown"></i> وكيل معتمد
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid rgba(124, 58, 237, 0.1);">
+                        <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            تسجيل الخروج
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1249,11 +1598,12 @@
 
         <!-- صفحة الطلبات -->
         <div id="orders-page" class="page">
-            <div style="padding: var(--space-xl) var(--screen-padding);">
-                <div class="section-header" style="margin: 0 0 var(--space-lg);">
+            <div class="orders-container">
+                <div class="orders-header">
                     <h2 class="section-title">طلباتي</h2>
-                    <button class="icon-btn" onclick="refreshOrders()">
+                    <button class="btn btn-secondary" onclick="refreshOrders()">
                         <i class="fas fa-sync-alt"></i>
+                        تحديث
                     </button>
                 </div>
                 
@@ -1271,34 +1621,50 @@
             
             <div class="payment-info">
                 <div class="form-group">
-                    <label class="form-label">رقم حساب Linky</label>
+                    <label class="form-label">
+                        <i class="fas fa-id-card"></i>
+                        رقم حساب Linky
+                    </label>
                     <input type="text" class="form-input" id="linky-id" placeholder="أدخل ID حسابك في Linky" required>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">رقم الهاتف المحول منه</label>
+                    <label class="form-label">
+                        <i class="fas fa-phone"></i>
+                        رقم الهاتف المحول منه
+                    </label>
                     <input type="tel" class="form-input" id="sender-phone" placeholder="مثال: 01000000000" required>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">رقم واتساب (اختياري)</label>
+                    <label class="form-label">
+                        <i class="fab fa-whatsapp"></i>
+                        رقم واتساب (اختياري)
+                    </label>
                     <input type="tel" class="form-input" id="whatsapp-number" placeholder="للتواصل في حالة وجود مشكلة">
                 </div>
                 
-                <!-- تصميم رفع الصورة الجديد (زر +) -->
+                <!-- تصميم رفع الصورة -->
                 <div class="form-group">
-                    <label class="form-label">صورة إيصال التحويل</label>
-                    <button type="button" class="upload-plus-btn touch-feedback" onclick="document.getElementById('receipt-file').click()">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <input type="file" id="receipt-file" accept="image/*" style="display: none;" onchange="previewReceiptImage(event)" required>
-                    <div class="file-preview" id="receipt-preview">
-                        <!-- سيتم إضافة المعاينة هنا -->
+                    <label class="form-label">
+                        <i class="fas fa-receipt"></i>
+                        صورة إيصال التحويل
+                    </label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="receipt-file" class="file-upload-input" accept="image/*" style="display: none;" onchange="previewReceiptImage(event)" required>
+                        <label for="receipt-file" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <div class="file-upload-text">انقر لرفع صورة الإيصال</div>
+                            <div class="file-upload-subtext">الحجم الأقصى: 5MB • الصيغ المدعومة: JPG, PNG, GIF</div>
+                        </label>
+                        <div class="file-preview" id="receipt-preview">
+                            <!-- سيتم إضافة المعاينة هنا -->
+                        </div>
                     </div>
                 </div>
                 
                 <button type="button" class="btn-submit touch-feedback" onclick="submitPayment()">
-                    <i class="fas fa-paper-plane"></i> إرسال الطلب
+                    <i class="fas fa-paper-plane"></i> تأكيد وإرسال الطلب
                 </button>
             </div>
         </div>
@@ -1312,7 +1678,7 @@
                             <i class="fas fa-sign-in-alt"></i>
                         </div>
                         <h1 class="auth-title">تسجيل الدخول</h1>
-                        <p class="auth-subtitle">سجل دخولك لبدء رحلتك معنا</p>
+                        <p class="auth-subtitle">سجل دخولك للوصول إلى جميع خدماتنا المميزة</p>
                     </div>
                     
                     <form id="login-form">
@@ -1330,7 +1696,7 @@
                     </form>
                     
                     <div class="auth-footer">
-                        <p>ليس لديك حساب؟ <a href="#" class="auth-link" onclick="showPage('register'); return false;">سجل الآن</a></p>
+                        <p>ليس لديك حساب؟ <a href="#" class="auth-link" onclick="showPage('register'); return false">سجل حساب جديد</a></p>
                     </div>
                 </div>
             </div>
@@ -1344,14 +1710,14 @@
                         <div class="auth-icon">
                             <i class="fas fa-user-plus"></i>
                         </div>
-                        <h1 class="auth-title">إنشاء حساب</h1>
-                        <p class="auth-subtitle">انضم إلى مجتمعنا واستمتع بأفضل الخدمات</p>
+                        <h1 class="auth-title">إنشاء حساب جديد</h1>
+                        <p class="auth-subtitle">انضم إلى مجتمعنا واستمتع بأفضل العروض والخدمات</p>
                     </div>
                     
                     <form id="register-form">
                         <div class="form-group">
                             <label class="form-label">اسم المستخدم</label>
-                            <input type="text" class="form-input" id="register-username" placeholder="أدخل اسمك" required>
+                            <input type="text" class="form-input" id="register-username" placeholder="أدخل اسمك الكامل" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">البريد الإلكتروني</label>
@@ -1364,13 +1730,13 @@
                         
                         <!-- تصميم رفع الصورة للبروفايل -->
                         <div class="form-group">
-                            <label class="form-label">صورة الملف الشخصي</label>
+                            <label class="form-label">صورة الملف الشخصي (اختياري)</label>
                             <div class="file-upload-wrapper">
-                                <input type="file" id="profile-pic" class="file-upload-input" accept="image/*" onchange="previewProfileImage(event)">
+                                <input type="file" id="profile-pic" class="file-upload-input" accept="image/*" style="display: none;" onchange="previewProfileImage(event)">
                                 <label for="profile-pic" class="file-upload-label">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <div class="file-upload-text">انقر لرفع الصورة</div>
-                                    <div class="file-upload-subtext">الحجم الأقصى: 2MB</div>
+                                    <i class="fas fa-user-circle"></i>
+                                    <div class="file-upload-text">انقر لرفع صورة شخصية</div>
+                                    <div class="file-upload-subtext">الحجم الأقصى: 2MB • الصيغ المدعومة: JPG, PNG</div>
                                 </label>
                                 <div class="file-preview" id="profile-preview">
                                     <!-- سيتم إضافة المعاينة هنا -->
@@ -1379,12 +1745,12 @@
                         </div>
                         
                         <button type="submit" class="btn-submit touch-feedback">
-                            <i class="fas fa-user-plus"></i> إنشاء حساب
+                            <i class="fas fa-user-plus"></i> إنشاء حساب جديد
                         </button>
                     </form>
                     
                     <div class="auth-footer">
-                        <p>لديك حساب بالفعل؟ <a href="#" class="auth-link" onclick="showPage('login'); return false;">سجل الدخول</a></p>
+                        <p>لديك حساب بالفعل؟ <a href="#" class="auth-link" onclick="showPage('login'); return false">سجل الدخول الآن</a></p>
                     </div>
                 </div>
             </div>
@@ -1408,11 +1774,11 @@
         </div>
         <a href="#" class="nav-item" onclick="showPage('profile'); return false;">
             <i class="fas fa-user"></i>
-            <span>ملفي</span>
+            <span>حسابي</span>
         </a>
-        <a href="#" class="nav-item" onclick="logout(); return false;">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>خروج</span>
+        <a href="#" class="nav-item" onclick="showAdminPanel(); return false;">
+            <i class="fas fa-cog"></i>
+            <span>الإدارة</span>
         </a>
     </div>
 
@@ -1451,6 +1817,7 @@
             measurementId: "G-4RRG7GBM9L"
         };
 
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
@@ -1461,37 +1828,100 @@
         let profileImageBase64 = null;
         let receiptImageBase64 = null;
         
-        // ===== بيانات الباقات =====
+        // ===== بيانات الباقات المحسنة =====
         const packages = [
-            { id: 1, coins: 1000, price: 2, badge: "الأكثر طلباً" },
-            { id: 2, coins: 2000, price: 3.5, badge: "الأفضل قيمة" },
-            { id: 3, coins: 5000, price: 8, badge: "عروض خاصة" },
-            { id: 4, coins: 10000, price: 15, badge: "توفير كبير" },
-            { id: 5, coins: 20000, price: 28, badge: "باقة VIP" },
-            { id: 6, coins: 50000, price: 65, badge: "باقة البلاتينية" }
+            { 
+                id: 1, 
+                coins: 1000, 
+                price: 2, 
+                badge: "الأكثر طلباً",
+                popular: true,
+                discount: null
+            },
+            { 
+                id: 2, 
+                coins: 2000, 
+                price: 3.5, 
+                badge: "الأفضل قيمة",
+                popular: false,
+                discount: "10%"
+            },
+            { 
+                id: 3, 
+                coins: 5000, 
+                price: 8, 
+                badge: "عروض خاصة",
+                popular: false,
+                discount: "15%"
+            },
+            { 
+                id: 4, 
+                coins: 10000, 
+                price: 15, 
+                badge: "توفير كبير",
+                popular: true,
+                discount: "20%"
+            },
+            { 
+                id: 5, 
+                coins: 20000, 
+                price: 28, 
+                badge: "باقة VIP",
+                popular: false,
+                discount: "25%"
+            },
+            { 
+                id: 6, 
+                coins: 50000, 
+                price: 65, 
+                badge: "باقة البلاتينية",
+                popular: true,
+                discount: "30%"
+            }
         ];
 
         // ===== تهيئة التطبيق =====
         document.addEventListener('DOMContentLoaded', function() {
-            loadPackages();
-            setupEventListeners();
-            
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    currentUser = user;
-                    loadUserProfile(user.uid);
-                    showPage('home');
-                    showToast('مرحباً بعودتك!', 'تم تسجيل الدخول بنجاح', 'success');
-                } else {
-                    showPage('login');
-                }
-            });
-            
-            // جعل التطبيق PWA-friendly
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').catch(console.error);
-            }
+            initApp();
         });
+
+        async function initApp() {
+            try {
+                loadPackages();
+                setupEventListeners();
+                
+                // مراقبة حالة المصادقة
+                auth.onAuthStateChanged(async (user) => {
+                    if (user) {
+                        currentUser = user;
+                        await loadUserProfile(user.uid);
+                        showPage('home');
+                        showToast('مرحباً بعودتك!', 'تم تسجيل الدخول بنجاح', 'success');
+                    } else {
+                        showPage('login');
+                    }
+                });
+                
+                // جعل التطبيق PWA-friendly
+                if ('serviceWorker' in navigator && 'PushManager' in window) {
+                    try {
+                        const registration = await navigator.serviceWorker.register('/sw.js');
+                        console.log('Service Worker registered successfully');
+                    } catch (error) {
+                        console.log('Service Worker registration failed:', error);
+                    }
+                }
+                
+                // طلب إذن الإشعارات
+                if (Notification.permission === 'default') {
+                    Notification.requestPermission();
+                }
+                
+            } catch (error) {
+                console.error('Error initializing app:', error);
+                showToast('خطأ في التهيئة', 'حدث خطأ أثناء تحميل التطبيق', 'error');
+            }
+        }
 
         // ===== عرض الصفحات =====
         function showPage(pageId) {
@@ -1501,55 +1931,79 @@
                 return;
             }
             
+            // إخفاء جميع الصفحات
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
+            // إزالة النشاط من عناصر التنقل
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
+            // إظهار الصفحة المطلوبة
             const pageElement = document.getElementById(`${pageId}-page`);
             if (pageElement) {
                 pageElement.classList.add('active');
             }
             
             // تحديث التنقل السفلي
-            const navIndex = {
-                'home': 0,
-                'orders': 1,
-                'profile': 3,
-                'logout': 4
-            }[pageId];
-            
-            if (navIndex !== undefined) {
-                document.querySelectorAll('.nav-item')[navIndex].classList.add('active');
+            const navItems = document.querySelectorAll('.nav-item');
+            switch(pageId) {
+                case 'home':
+                    navItems[0].classList.add('active');
+                    break;
+                case 'orders':
+                    navItems[1].classList.add('active');
+                    break;
+                case 'profile':
+                    navItems[3].classList.add('active');
+                    break;
             }
             
             // تحميل البيانات حسب الصفحة
-            if (pageId === 'orders' && currentUser) {
-                loadUserOrders(currentUser.uid);
+            switch(pageId) {
+                case 'orders':
+                    loadUserOrders(currentUser.uid);
+                    break;
+                case 'home':
+                    loadPackages();
+                    break;
             }
         }
 
         // ===== تحميل الباقات =====
         function loadPackages() {
             const grid = document.getElementById('packages-grid');
+            if (!grid) return;
+            
             grid.innerHTML = '';
             
-            packages.forEach((pkg, index) => {
+            packages.forEach((pkg) => {
                 const packageCard = document.createElement('div');
-                packageCard.className = 'package-card';
+                packageCard.className = `package-card ${pkg.popular ? 'popular' : ''}`;
                 packageCard.innerHTML = `
-                    ${pkg.badge ? `<div class="package-badge">${pkg.badge}</div>` : ''}
                     <div class="package-icon">
                         <i class="fas fa-gem"></i>
                     </div>
-                    <div class="package-coins">${pkg.coins.toLocaleString()} عملة</div>
+                    ${pkg.discount ? `
+                        <div style="position: absolute; top: 16px; left: 16px; background: var(--secondary); color: white; padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; z-index: 1;">
+                            خصص ${pkg.discount}
+                        </div>
+                    ` : ''}
+                    <div class="package-coins">
+                        <i class="fas fa-coins"></i>
+                        ${pkg.coins.toLocaleString()} عملة
+                    </div>
                     <div class="package-price">
                         ${pkg.price.toFixed(2)} <span class="price-unit">$</span>
                     </div>
-                    <button class="buy-btn touch-feedback" onclick="selectPackage(${pkg.id})">
+                    ${pkg.discount ? `
+                        <div style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--space-md); text-decoration: line-through;">
+                            ${(pkg.price * 1.2).toFixed(2)} $ السعر الأصلي
+                        </div>
+                    ` : ''}
+                    <button class="buy-btn touch-feedback" onclick="selectPackage(${pkg.id})" data-package-id="${pkg.id}">
                         <i class="fas fa-bolt"></i> شراء سريع
                     </button>
                 `;
@@ -1568,12 +2022,16 @@
             selectedPackage = packages.find(p => p.id === packageId);
             const paymentHeader = document.getElementById('payment-header');
             
+            if (!paymentHeader) return;
+            
             paymentHeader.innerHTML = `
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: var(--space-xs);">إتمام الشراء</h2>
-                <div style="font-size: 14px; opacity: 0.9; margin-bottom: var(--space-sm);">${selectedPackage.badge}</div>
+                <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: var(--space-sm);">إتمام عملية الشراء</h2>
+                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: var(--space-sm);">${selectedPackage.badge}</div>
                 <div class="payment-amount">${selectedPackage.price.toFixed(2)}</div>
-                <div class="payment-currency">دولار</div>
-                <div style="margin-top: var(--space-sm); font-size: 16px; font-weight: 600;">${selectedPackage.coins.toLocaleString()} عملة</div>
+                <div class="payment-currency">دولار أمريكي</div>
+                <div style="margin-top: var(--space-lg); font-size: 1.125rem; font-weight: 700; background: rgba(255, 255, 255, 0.2); padding: 8px 20px; border-radius: var(--radius-full);">
+                    ${selectedPackage.coins.toLocaleString()} عملة
+                </div>
             `;
             
             showPage('payment');
@@ -1585,8 +2043,18 @@
             const preview = document.getElementById('profile-preview');
             
             if (file) {
+                // التحقق من الحجم
                 if (file.size > 2 * 1024 * 1024) {
                     showToast('خطأ', 'حجم الصورة كبير جداً! الحد الأقصى 2MB', 'error');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // التحقق من نوع الملف
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    showToast('خطأ', 'نوع الملف غير مدعوم! الرجاء رفع صورة JPG, PNG أو GIF', 'error');
+                    event.target.value = '';
                     return;
                 }
                 
@@ -1594,13 +2062,16 @@
                 reader.onload = function(e) {
                     profileImageBase64 = e.target.result;
                     preview.innerHTML = `
-                        <img src="${profileImageBase64}" class="file-preview-image">
+                        <img src="${profileImageBase64}" class="file-preview-image" alt="معاينة صورة الملف الشخصي">
                         <button type="button" class="remove-image-btn" onclick="removeProfileImage()">
                             <i class="fas fa-times"></i>
                         </button>
                     `;
                     showToast('تم الرفع', 'تم رفع الصورة بنجاح', 'success');
-                }
+                };
+                reader.onerror = function() {
+                    showToast('خطأ', 'حدث خطأ أثناء قراءة الملف', 'error');
+                };
                 reader.readAsDataURL(file);
             }
         }
@@ -1610,8 +2081,18 @@
             const preview = document.getElementById('receipt-preview');
             
             if (file) {
+                // التحقق من الحجم
                 if (file.size > 5 * 1024 * 1024) {
                     showToast('خطأ', 'حجم الصورة كبير جداً! الحد الأقصى 5MB', 'error');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // التحقق من نوع الملف
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    showToast('خطأ', 'نوع الملف غير مدعوم! الرجاء رفع صورة JPG, PNG أو GIF', 'error');
+                    event.target.value = '';
                     return;
                 }
                 
@@ -1619,60 +2100,76 @@
                 reader.onload = function(e) {
                     receiptImageBase64 = e.target.result;
                     preview.innerHTML = `
-                        <img src="${receiptImageBase64}" class="file-preview-image">
+                        <img src="${receiptImageBase64}" class="file-preview-image" alt="معاينة صورة الإيصال">
                         <button type="button" class="remove-image-btn" onclick="removeReceiptImage()">
                             <i class="fas fa-times"></i>
                         </button>
                     `;
                     showToast('تم الرفع', 'تم رفع صورة الإيصال بنجاح', 'success');
-                }
+                };
+                reader.onerror = function() {
+                    showToast('خطأ', 'حدث خطأ أثناء قراءة الملف', 'error');
+                };
                 reader.readAsDataURL(file);
             }
         }
 
         function removeProfileImage() {
             profileImageBase64 = null;
-            document.getElementById('profile-preview').innerHTML = '';
-            document.getElementById('profile-pic').value = '';
+            const preview = document.getElementById('profile-preview');
+            if (preview) preview.innerHTML = '';
+            const input = document.getElementById('profile-pic');
+            if (input) input.value = '';
         }
 
         function removeReceiptImage() {
             receiptImageBase64 = null;
-            document.getElementById('receipt-preview').innerHTML = '';
-            document.getElementById('receipt-file').value = '';
+            const preview = document.getElementById('receipt-preview');
+            if (preview) preview.innerHTML = '';
+            const input = document.getElementById('receipt-file');
+            if (input) input.value = '';
         }
 
         // ===== نسخ الأرقام =====
         function copyCode(code) {
             navigator.clipboard.writeText(code).then(() => {
                 showToast('تم النسخ', 'تم نسخ كود الوكالة بنجاح', 'success');
-            }).catch(() => {
+            }).catch((err) => {
+                console.error('Failed to copy: ', err);
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
                 textArea.value = code;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
                 document.body.appendChild(textArea);
                 textArea.select();
-                document.execCommand('copy');
+                try {
+                    document.execCommand('copy');
+                    showToast('تم النسخ', 'تم نسخ كود الوكالة', 'success');
+                } catch (err) {
+                    showToast('خطأ', 'تعذر نسخ الكود', 'error');
+                }
                 document.body.removeChild(textArea);
-                showToast('تم النسخ', 'تم نسخ كود الوكالة', 'success');
             });
         }
 
         // ===== التنبيهات =====
         function showToast(title, message, type = 'success') {
             const container = document.getElementById('toast-container');
+            if (!container) return;
+            
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
             
-            const icon = {
+            const icons = {
                 'success': 'fa-check-circle',
                 'error': 'fa-exclamation-circle',
                 'info': 'fa-info-circle'
-            }[type];
+            };
             
             toast.innerHTML = `
                 <div class="toast-icon">
-                    <i class="fas ${icon}"></i>
+                    <i class="fas ${icons[type] || icons.info}"></i>
                 </div>
                 <div class="toast-content">
                     <div class="toast-title">${title}</div>
@@ -1682,36 +2179,59 @@
             
             container.appendChild(toast);
             
+            // إزالة التنبيه تلقائياً بعد 5 ثواني
             setTimeout(() => {
-                toast.remove();
+                if (toast.parentNode === container) {
+                    toast.style.animation = 'toastFadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                    setTimeout(() => {
+                        if (toast.parentNode === container) {
+                            container.removeChild(toast);
+                        }
+                    }, 400);
+                }
             }, 5000);
             
-            toast.addEventListener('click', () => toast.remove());
+            // إزالة التنبيه عند النقر
+            toast.addEventListener('click', () => {
+                toast.style.animation = 'toastFadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                setTimeout(() => {
+                    if (toast.parentNode === container) {
+                        container.removeChild(toast);
+                    }
+                }, 400);
+            });
         }
 
         // ===== التحميل =====
         function showLoading(show) {
-            document.getElementById('loader').style.display = show ? 'flex' : 'none';
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.display = show ? 'flex' : 'none';
+            }
         }
 
         // ===== تحميل الملف الشخصي =====
         async function loadUserProfile(userId) {
             try {
+                showLoading(true);
                 const snapshot = await database.ref('users/' + userId).once('value');
                 const userData = snapshot.val();
                 
                 if (userData) {
                     document.getElementById('user-name').textContent = userData.username || 'مستخدم';
                     document.getElementById('user-email').textContent = userData.email || currentUser.email;
-                    document.getElementById('user-join-date').textContent = userData.joinDate || '2024-01-01';
+                    document.getElementById('user-join-date').textContent = userData.joinDate || new Date().toLocaleDateString('ar-EG');
                     
                     if (userData.profileImage) {
                         document.getElementById('user-profile-img').src = userData.profileImage;
                     }
                 }
-                loadUserOrdersCount(userId);
+                await loadUserOrdersCount(userId);
             } catch (error) {
                 console.error('خطأ في تحميل الملف الشخصي:', error);
+                showToast('خطأ', 'حدث خطأ في تحميل بيانات المستخدم', 'error');
+            } finally {
+                showLoading(false);
             }
         }
 
@@ -1743,12 +2263,18 @@
                 const orders = snapshot.val();
                 const ordersList = document.getElementById('orders-list');
                 
+                if (!ordersList) return;
+                
                 if (!orders) {
                     ordersList.innerHTML = `
-                        <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
-                            <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;"></i>
-                            <p style="font-size: 16px; margin-bottom: 8px;">لا توجد طلبات بعد</p>
-                            <p style="font-size: 14px;">قم بشراء أول باقة لتبدأ رحلتك معنا</p>
+                        <div style="text-align: center; padding: 80px 20px; color: var(--text-secondary);">
+                            <i class="fas fa-inbox" style="font-size: 3.5rem; margin-bottom: var(--space-lg); opacity: 0.2;"></i>
+                            <p style="font-size: 1.125rem; margin-bottom: var(--space-sm); font-weight: 700;">لا توجد طلبات بعد</p>
+                            <p style="font-size: 0.9375rem; margin-bottom: var(--space-xl); opacity: 0.7;">قم بشراء أول باقة لتبدأ رحلتك معنا</p>
+                            <button class="btn btn-primary" onclick="showPage('home'); return false;">
+                                <i class="fas fa-shopping-cart"></i>
+                                تصفح الباقات
+                            </button>
                         </div>
                     `;
                     return;
@@ -1756,36 +2282,78 @@
                 
                 const ordersArray = Object.entries(orders)
                     .map(([id, order]) => ({ id, ...order }))
-                    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                    .sort((a, b) => new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0));
                 
                 ordersList.innerHTML = '';
+                
                 ordersArray.forEach(order => {
                     const orderCard = document.createElement('div');
-                    orderCard.className = 'package-card';
+                    orderCard.className = `order-card ${order.status || 'pending'}`;
+                    
+                    const statusText = {
+                        'pending': 'قيد المراجعة',
+                        'processing': 'جاري التنفيذ',
+                        'completed': 'مكتمل',
+                        'cancelled': 'ملغي'
+                    }[order.status] || 'قيد المراجعة';
+                    
+                    const statusClass = `status-${order.status || 'pending'}`;
+                    
                     orderCard.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                            <div style="font-weight: 700; color: var(--text-primary);">طلب #${order.id.substring(0, 8)}</div>
-                            <div style="font-size: 12px; padding: 4px 12px; background: ${order.status === 'completed' ? 'var(--accent)' : 'var(--warning)'}; color: white; border-radius: var(--radius-full);">
-                                ${order.status === 'completed' ? 'مكتمل' : 'قيد المراجعة'}
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 8px;">
-                            <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 2px;">الكمية</div>
-                            <div style="font-size: 18px; font-weight: 700; color: var(--primary);">${order.coins ? order.coins.toLocaleString() : 0} عملة</div>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
                             <div>
-                                <div style="font-size: 12px; color: var(--text-secondary);">المبلغ</div>
-                                <div style="font-size: 14px; font-weight: 600;">${order.amount || 0}$</div>
+                                <div style="font-weight: 800; color: var(--text-primary); font-size: 1.125rem; margin-bottom: 4px;">
+                                    طلب #${order.id.substring(0, 8).toUpperCase()}
+                                </div>
+                                <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                                    ${new Date(order.date || order.createdAt).toLocaleString('ar-EG')}
+                                </div>
                             </div>
-                            <div>
-                                <div style="font-size: 12px; color: var(--text-secondary);">التاريخ</div>
-                                <div style="font-size: 14px; font-weight: 600;">${order.date ? new Date(order.date).toLocaleDateString('ar-EG') : 'غير محدد'}</div>
+                            <div class="order-status ${statusClass}">
+                                ${statusText}
                             </div>
                         </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-lg); margin: var(--space-lg) 0;">
+                            <div>
+                                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 6px;">
+                                    <i class="fas fa-coins"></i> الكمية
+                                </div>
+                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">
+                                    ${order.coins ? order.coins.toLocaleString() : 0} عملة
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 6px;">
+                                    <i class="fas fa-money-bill-wave"></i> المبلغ
+                                </div>
+                                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary);">
+                                    ${order.amount || 0} دولار
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${order.status === 'completed' && order.completedAt ? `
+                            <div style="background: rgba(16, 185, 129, 0.1); padding: var(--space-sm); border-radius: var(--radius-md); margin-top: var(--space-md); border-right: 3px solid var(--accent);">
+                                <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                                    <i class="fas fa-check-circle" style="color: var(--accent);"></i>
+                                    <div style="flex: 1;">
+                                        <div style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary);">
+                                            تم التحويل بنجاح
+                                        </div>
+                                        <div style="font-size: 0.8125rem; color: var(--text-secondary);">
+                                            ${new Date(order.completedAt).toLocaleString('ar-EG')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
                     `;
+                    
                     ordersList.appendChild(orderCard);
                 });
+                
             } catch (error) {
                 console.error('خطأ في تحميل الطلبات:', error);
                 showToast('خطأ', 'حدث خطأ في تحميل الطلبات', 'error');
@@ -1796,83 +2364,135 @@
 
         // ===== إعداد مستمعي الأحداث =====
         function setupEventListeners() {
-            document.getElementById('login-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                
-                if (!email || !password) {
-                    showToast('خطأ', 'الرجاء ملء جميع الحقول', 'error');
-                    return;
-                }
-                
-                try {
-                    showLoading(true);
-                    await auth.signInWithEmailAndPassword(email, password);
-                    showToast('تم بنجاح', 'تم تسجيل الدخول بنجاح!', 'success');
-                } catch (error) {
-                    let errorMessage = 'حدث خطأ أثناء تسجيل الدخول';
-                    if (error.code === 'auth/user-not-found') {
-                        errorMessage = 'البريد الإلكتروني غير مسجل';
-                    } else if (error.code === 'auth/wrong-password') {
-                        errorMessage = 'كلمة المرور غير صحيحة';
-                    } else if (error.code === 'auth/invalid-email') {
-                        errorMessage = 'البريد الإلكتروني غير صالح';
-                    }
-                    showToast('خطأ', errorMessage, 'error');
-                } finally {
-                    showLoading(false);
-                }
-            });
+            // تسجيل الدخول
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await handleLogin();
+                });
+            }
+            
+            // إنشاء حساب
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await handleRegister();
+                });
+            }
+        }
 
-            document.getElementById('register-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('register-username').value;
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
-                
-                if (!username || !email || !password) {
-                    showToast('خطأ', 'الرجاء ملء جميع الحقول', 'error');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    showToast('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
-                    return;
-                }
-                
-                try {
-                    showLoading(true);
-                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                    const user = userCredential.user;
-                    
-                    await database.ref('users/' + user.uid).set({
-                        username: username,
-                        email: email,
-                        profileImage: profileImageBase64 || `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=7C3AED&color=fff&size=100`,
-                        joinDate: new Date().toISOString().split('T')[0],
-                        agencyCode: 'GGHGV',
-                        createdAt: Date.now()
-                    });
-                    
-                    showToast('تم بنجاح', 'تم إنشاء الحساب بنجاح!', 'success');
-                    
-                    document.getElementById('register-form').reset();
-                    removeProfileImage();
-                } catch (error) {
-                    let errorMessage = 'حدث خطأ أثناء إنشاء الحساب';
-                    if (error.code === 'auth/email-already-in-use') {
-                        errorMessage = 'البريد الإلكتروني مستخدم بالفعل';
-                    } else if (error.code === 'auth/invalid-email') {
+        // ===== معالجة تسجيل الدخول =====
+        async function handleLogin() {
+            const email = document.getElementById('login-email')?.value;
+            const password = document.getElementById('login-password')?.value;
+            
+            if (!email || !password) {
+                showToast('خطأ', 'الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            try {
+                showLoading(true);
+                await auth.signInWithEmailAndPassword(email, password);
+                showToast('تم بنجاح', 'تم تسجيل الدخول بنجاح!', 'success');
+            } catch (error) {
+                let errorMessage = 'حدث خطأ أثناء تسجيل الدخول';
+                switch(error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'البريد الإلكتروني غير مسجل';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'كلمة المرور غير صحيحة';
+                        break;
+                    case 'auth/invalid-email':
                         errorMessage = 'البريد الإلكتروني غير صالح';
-                    } else if (error.code === 'auth/weak-password') {
-                        errorMessage = 'كلمة المرور ضعيفة جداً';
-                    }
-                    showToast('خطأ', errorMessage, 'error');
-                } finally {
-                    showLoading(false);
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'هذا الحساب تم تعطيله';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'تم محاولة تسجيل الدخول عدة مرات، الرجاء المحاولة لاحقاً';
+                        break;
                 }
-            });
+                showToast('خطأ', errorMessage, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // ===== معالجة إنشاء حساب =====
+        async function handleRegister() {
+            const username = document.getElementById('register-username')?.value;
+            const email = document.getElementById('register-email')?.value;
+            const password = document.getElementById('register-password')?.value;
+            
+            if (!username || !email || !password) {
+                showToast('خطأ', 'الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showToast('خطأ', 'البريد الإلكتروني غير صالح', 'error');
+                return;
+            }
+            
+            try {
+                showLoading(true);
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // حفظ بيانات المستخدم في قاعدة البيانات
+                const userData = {
+                    username: username,
+                    email: email,
+                    profileImage: profileImageBase64 || `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=7C3AED&color=fff&size=120&bold=true`,
+                    joinDate: new Date().toISOString().split('T')[0],
+                    agencyCode: 'GGHGV',
+                    createdAt: Date.now(),
+                    role: 'user'
+                };
+                
+                await database.ref('users/' + user.uid).set(userData);
+                
+                showToast('تم بنجاح', 'تم إنشاء الحساب بنجاح!', 'success');
+                
+                // إعادة تعيين النموذج
+                document.getElementById('register-form').reset();
+                removeProfileImage();
+                
+            } catch (error) {
+                let errorMessage = 'حدث خطأ أثناء إنشاء الحساب';
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'البريد الإلكتروني مستخدم بالفعل';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'البريد الإلكتروني غير صالح';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'كلمة المرور ضعيفة جداً';
+                        break;
+                    case 'auth/operation-not-allowed':
+                        errorMessage = 'عملية التسجيل غير مسموحة حالياً';
+                        break;
+                }
+                showToast('خطأ', errorMessage, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // ===== التحقق من صحة البريد الإلكتروني =====
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
         }
 
         // ===== إرسال طلب الدفع =====
@@ -1882,9 +2502,9 @@
                 return;
             }
             
-            const linkyId = document.getElementById('linky-id').value;
-            const senderPhone = document.getElementById('sender-phone').value;
-            const whatsappNumber = document.getElementById('whatsapp-number').value;
+            const linkyId = document.getElementById('linky-id')?.value;
+            const senderPhone = document.getElementById('sender-phone')?.value;
+            const whatsappNumber = document.getElementById('whatsapp-number')?.value;
             
             if (!linkyId || !senderPhone) {
                 showToast('خطأ', 'الرجاء ملء جميع الحقول المطلوبة', 'error');
@@ -1898,14 +2518,14 @@
             
             const phoneRegex = /^01[0-2|5]\d{8}$/;
             if (!phoneRegex.test(senderPhone)) {
-                showToast('خطأ', 'الرجاء إدخال رقم هاتف مصري صحيح', 'error');
+                showToast('خطأ', 'الرجاء إدخال رقم هاتف مصري صحيح (يبدأ بـ 010, 011, 012, 015)', 'error');
                 return;
             }
             
             try {
                 showLoading(true);
                 
-                const orderId = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                const orderId = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
                 
                 const orderData = {
                     id: orderId,
@@ -1923,11 +2543,14 @@
                     date: new Date().toISOString(),
                     vodafoneNumber: '01011111111',
                     agencyCode: 'GGHGV',
-                    createdAt: Date.now()
+                    createdAt: Date.now(),
+                    updatedAt: Date.now()
                 };
                 
+                // حفظ الطلب في قاعدة البيانات
                 await database.ref('orders/' + orderId).set(orderData);
                 
+                // إرسال إشعار للمشرف
                 await database.ref('admin_notifications').push({
                     type: 'new_order',
                     orderId: orderId,
@@ -1936,7 +2559,15 @@
                     amount: orderData.amount,
                     coins: orderData.coins,
                     date: new Date().toISOString(),
-                    read: false
+                    read: false,
+                    createdAt: Date.now()
+                });
+                
+                // تحديث إحصائيات المستخدم
+                await database.ref('users/' + currentUser.uid + '/lastOrder').set({
+                    id: orderId,
+                    date: new Date().toISOString(),
+                    amount: orderData.amount
                 });
                 
                 showToast('تم بنجاح', 'تم إرسال طلبك بنجاح! سيتم مراجعته قريباً', 'success');
@@ -1966,13 +2597,13 @@
         // ===== وظائف إضافية =====
         function showAllPackages() {
             showToast('عرض الكل', 'جاري تحميل جميع الباقات...', 'info');
-            // يمكن إضافة منطق لعرض المزيد من الباقات هنا
+            loadPackages();
         }
 
-        function refreshOrders() {
+        async function refreshOrders() {
             if (currentUser) {
-                loadUserOrders(currentUser.uid);
-                showToast('تحديث', 'جاري تحديث الطلبات...', 'success');
+                await loadUserOrders(currentUser.uid);
+                showToast('تحديث', 'تم تحديث الطلبات بنجاح', 'success');
             }
         }
 
@@ -1980,32 +2611,92 @@
             showToast('الإشعارات', 'لا توجد إشعارات جديدة', 'info');
         }
 
+        // ===== لوحة التحكم الإدارية =====
+        function showAdminPanel() {
+            if (!currentUser) {
+                showToast('تنبيه', 'يجب تسجيل الدخول أولاً', 'error');
+                return;
+            }
+            
+            // التحقق من صلاحيات المشرف
+            database.ref('users/' + currentUser.uid).once('value')
+                .then((snapshot) => {
+                    const userData = snapshot.val();
+                    if (userData && userData.role === 'admin') {
+                        // فتح لوحة التحكم في نافذة جديدة
+                        window.open('/admin.html', '_blank');
+                    } else {
+                        showToast('غير مصرح', 'ليس لديك صلاحيات للوصول إلى لوحة التحكم', 'error');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error checking admin permissions:', error);
+                    showToast('خطأ', 'حدث خطأ في التحقق من الصلاحيات', 'error');
+                });
+        }
+
         // ===== تسجيل الخروج =====
-        function logout() {
-            if (confirm('هل تريد تسجيل الخروج؟')) {
-                auth.signOut().then(() => {
+        async function logout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                try {
+                    showLoading(true);
+                    await auth.signOut();
                     showToast('تم الخروج', 'تم تسجيل الخروج بنجاح', 'success');
                     setTimeout(() => showPage('login'), 1000);
-                }).catch((error) => {
-                    showToast('خطأ', error.message, 'error');
-                });
+                } catch (error) {
+                    console.error('Error signing out:', error);
+                    showToast('خطأ', 'حدث خطأ أثناء تسجيل الخروج', 'error');
+                } finally {
+                    showLoading(false);
+                }
             }
         }
 
-        // ===== جعل التطبيق PWA-ready =====
-        if ('standalone' in navigator || window.matchMedia('(display-mode: standalone)').matches) {
-            document.documentElement.style.setProperty('--screen-padding', 'calc(12px + env(safe-area-inset-right))');
-        }
-
-        // ===== إضافة تأثيرات لمسية =====
-        document.addEventListener('touchstart', function() {}, {passive: true});
-        
-        // منع التكبير على المدخلات في iOS
-        document.addEventListener('touchstart', function(event) {
-            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
-                event.target.style.fontSize = '16px';
-            }
+        // ===== تحسينات للتجربة على الأجهزة المختلفة =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة تأثيرات عند التفاعل
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('touch-feedback') || 
+                    e.target.closest('.touch-feedback')) {
+                    // التأثير تمت إضافته عبر CSS
+                }
+            });
+            
+            // تحسين أداء الإدخال على iOS
+            document.addEventListener('touchstart', function(event) {
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                    event.target.style.fontSize = '16px';
+                }
+            });
+            
+            document.addEventListener('touchend', function(event) {
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                    setTimeout(() => {
+                        event.target.style.fontSize = '';
+                    }, 100);
+                }
+            });
         });
+
+        // ===== وظائف مساعدة =====
+        function formatDate(date) {
+            const d = new Date(date);
+            return d.toLocaleDateString('ar-EG', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('ar-EG', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+            }).format(amount);
+        }
     </script>
 </body>
 </html>
